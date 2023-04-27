@@ -1,8 +1,32 @@
+(env
+ (dev
+  (flags
+   (:standard -warn-error -9-27-32-33-34))))
+
+(library
+ (name lib)
+ (modules CT_of_json JGS)
+ (wrapped false)
+ (libraries yojson GT OCanren noCanren.Option noCanren.List)
+ (flags
+  (:standard -rectypes))
+ (preprocess
+  (pps
+   OCanren-ppx.ppx_repr
+   OCanren-ppx.ppx_fresh
+   OCanren-ppx.ppx_distrib
+   -new-typenames
+   ppx_yojson_conv
+   ppx_expect
+   GT.ppx_all))
+ (inline_tests))
+
 (executable
  (name JGS_run)
- (modules JGS JGS_run)
- (libraries GT OCanren noCanren.Option noCanren.List)
- (flags (-rectypes))
+ (modules JGS_run)
+ (libraries lib)
+ (flags
+  (:standard -rectypes))
  (preprocess
   (pps
    OCanren-ppx.ppx_repr
