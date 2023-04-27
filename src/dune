@@ -5,7 +5,7 @@
 
 (library
  (name lib)
- (modules CT_of_json JGS)
+ (modules CT_of_json JGS JGS2)
  (wrapped false)
  (libraries yojson GT OCanren noCanren.Option noCanren.List)
  (flags
@@ -47,4 +47,11 @@
    "noCanren -w -8 %{input} -I `ocamlfind -query OCanren` -rectypes -o %{targets} | ocamlformat --enable-outside-detected-project --impl -")))
 
 (cram
- (deps ./JGS_run.exe))
+ (deps ./JGS_run.exe make_JSONs.exe jsons/test1.json))
+
+(executable
+ (name make_JSONs)
+ (modules make_JSONs)
+ (flags
+  (:standard -rectypes))
+ (libraries lib))
