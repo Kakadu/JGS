@@ -111,6 +111,11 @@ module type SAMPLE_CLASSTABLE = sig
   val make_tvar : int -> jtype -> jtype
   val make_interface : jtype list -> jtype list -> int
 
+  val make_class_fix :
+   params: (int -> jtype list) -> (int -> jtype) -> (int -> jtype list) -> int
+
+  val make_interface_fix : (int -> jtype list) -> (int -> jtype list) -> int
+
   module HO : sig
     val decl_by_id :
       (OCanren__.Nat.injected -> goal) -> HO.decl_injected -> goal
@@ -137,17 +142,20 @@ module SampleCT : SAMPLE_CLASSTABLE = struct
     let compare = compare
   end)
 
+  let make_tvar index upb = Var { id = new_id (); index; upb; lwb = None }
+  let m = ref M.empty
+  let make_params params = Stdlib.List.mapi (fun i p -> make_tvar i p) params
+
   let reset_map, add_class, add_interface, decl_by_id, decl_by_id_rel =
-    let m = ref M.empty in
     ( (fun () -> m := M.empty),
-      (fun c ->
+      (fun (c : cdecl) ->
         let id = new_id () in
-        let d = C c in
+        let d = C { c with params = make_params c.params } in
         m := M.add id d !m;
         id),
-      (fun i ->
+      (fun (i : idecl) ->
         let id = new_id () in
-        let d = I i in
+        let d = I { i with params = make_params i.params } in
         m := M.add id d !m;
         id),
       (fun id -> M.find id !m),
@@ -160,6 +168,20 @@ module SampleCT : SAMPLE_CLASSTABLE = struct
            in
            match disjs with [] -> failure | _ -> conde disjs) )
 
+  let add_class_fix (c : int -> cdecl) =
+    let id = new_id () in
+    let c = c id in
+    let d = C { c with params = make_params c.params } in
+    m := M.add id d !m;
+    id
+
+  let add_interface_fix (i : int -> idecl) =
+    let id = new_id () in
+    let iface = i id in
+    let d = I { iface with params = make_params iface.params } in
+    m := M.add id d !m;
+    id
+
   let reset () =
     reset_vars ();
     reset_map ()
@@ -167,6 +189,14 @@ module SampleCT : SAMPLE_CLASSTABLE = struct
   let make_tvar index upb = Var { id = new_id (); index; upb; lwb = None }
   let make_class params super supers = add_class { params; super; supers }
   let make_interface params supers = add_interface { params; supers }
+
+  let make_class_fix ~params super supers =
+    add_class_fix (fun id ->
+        { params = params id; super = super id; supers = supers id })
+
+  let make_interface_fix params supers =
+    add_interface_fix (fun id -> { params = params id; supers = supers id })
+
   let top = Class (0, [])
 
   let object_t =

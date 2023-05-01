@@ -414,6 +414,15 @@ let _ =
       SampleCT.object_t []
   in
 
+  (* class G<X> extends D <G<A>> *)
+  let _class_g =
+    SampleCT.make_class_fix
+      ~params:(fun _self -> [ SampleCT.object_t ])
+      (fun self ->
+        Class (class_d, [ Type (Class (self, [ Type (Class (class_a, [])) ])) ]))
+      (fun _self -> [])
+  in
+
   (* class F<X, Y> extends E<D<Y>, X> {...} *)
   let class_f =
     SampleCT.make_class
