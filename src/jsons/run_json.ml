@@ -25,10 +25,17 @@ let run_jtype ?(n = test_args.answers_count) query =
 
 let () =
   let j = Yojson.Safe.from_file test_args.json_name in
-  Format.printf "%a\n%!" (Yojson.Safe.pretty_print ~std:true) j;
 
+  (* Format.printf "%a\n%!" (Yojson.Safe.pretty_print ~std:true) j; *)
   let open JGS2 in
-  let (module CT : JGS2.SAMPLE_CLASSTABLE), goal = CT_of_json.make_query j in
+  let (module CT : JGS2.SAMPLE_CLASSTABLE), goal =
+    match CT_of_json.make_query j with
+    | x -> x
+    | exception Ppx_yojson_conv_lib.Yojson_conv.Of_yojson_error (exn, j) ->
+        Format.eprintf "%s\n%!" (Printexc.to_string exn);
+        Format.eprintf "%a\n%!" (Yojson.Safe.pretty_print ~std:true) j;
+        exit 1
+  in
 
   let module V = JGS.FO.Verifier (CT) in
   let rec ( <-< ) ta tb = ta -<- tb (* not complete! *)
