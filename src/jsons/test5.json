@@ -6,9 +6,7 @@
         "cname": "String",
         "params": [],
         "super": [
-          "Class",
-          "java.util.List",
-          [ [ "Type", [ "Class", "java.util.string", [] ] ] ]
+          "Class", "java.util.List", [ [ "Class", "java.util.string", [] ] ]
         ],
         "supers": []
       }

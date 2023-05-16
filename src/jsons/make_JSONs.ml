@@ -106,7 +106,7 @@ let () =
         };
       make_c "AbstractCollection"
         ~params:[ make_param "E" ~up:[ Class ("java.lang.Object", []) ] ]
-        ~sup:(Interface ("Collection", [ Type (Class ("E", [])) ]))
+        ~sup:(Interface ("Collection", [ Class ("E", []) ]))
         [];
     ]
   in
@@ -128,8 +128,7 @@ let () =
   let table =
     [
       make_c "String" ~params:[]
-        ~sup:
-          (Class ("java.util.List", [ Type (Class ("java.util.string", [])) ]))
+        ~sup:(Class ("java.util.List", [ Class ("java.util.string", []) ]))
         [];
     ]
   in
