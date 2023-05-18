@@ -103,6 +103,8 @@ let decl_inj : decl -> HO.decl_injected = function
 module type SAMPLE_CLASSTABLE = sig
   val decl_by_id : int -> decl
   val object_t : jtype
+  val array_t : jtype -> jtype
+  val primitive_t : string -> jtype
   val cloneable_t : jtype
   val serializable_t : jtype
   val new_var : unit -> int
@@ -112,7 +114,7 @@ module type SAMPLE_CLASSTABLE = sig
   val make_interface : jtype list -> jtype list -> int
 
   val make_class_fix :
-   params: (int -> jtype list) -> (int -> jtype) -> (int -> jtype list) -> int
+    params:(int -> jtype list) -> (int -> jtype) -> (int -> jtype list) -> int
 
   val make_interface_fix : (int -> jtype list) -> (int -> jtype list) -> int
 
@@ -202,6 +204,23 @@ module SampleCT : SAMPLE_CLASSTABLE = struct
   let object_t =
     let id = make_class [] top [] in
     Class (id, [])
+
+  let array_t param =
+    let id = make_class [] top [] in
+    Class (id, [ Type param ])
+
+  let primitive_t =
+    let h = Hashtbl.create 13 in
+    fun name ->
+      let id =
+        match Hashtbl.find h name with
+        | exception Not_found ->
+            let id = make_class [] top [] in
+            Hashtbl.add h name id;
+            id
+        | id -> id
+      in
+      Class (id, [])
 
   let cloneable_t =
     let id = make_interface [] [] in
