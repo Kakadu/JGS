@@ -7,7 +7,7 @@
  (name lib)
  (modules CT_of_json test_of_json JGS JGS2)
  (wrapped false)
- (libraries yojson GT OCanren noCanren.Option noCanren.List ocamlgraph)
+ (libraries yojson GT OCanren noCanren.Option noCanren.List ocamlgraph str)
  (flags
   (:standard -rectypes))
  (preprocess
