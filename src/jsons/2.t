@@ -6,6 +6,6 @@
   	     Processing: _.? <-< List (? extends java.lang.Object ())
   
   [
-    (? extends List<[? Extends java.lang.Object]>);
-    null
+    null;
+    List<[java.lang.Object]>
   ]

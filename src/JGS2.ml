@@ -108,6 +108,7 @@ let array t = !!(HO.Array t)
 let intersect xs = !!(HO.Intersect xs)
 let wildcard xs : _ JGS.HO.targ_injected = !!(HO.Wildcard xs)
 let type_ t : _ JGS.HO.targ_injected = !!(HO.Type t)
+let var index id lwb upb = !!(HO.Var { index; id; lwb; upb })
 
 let rec targ_inj : jtype targ -> HO.jtype_injected HO.targ_injected = function
   | Type t -> !!(HO.Type (jtype_inj t))
