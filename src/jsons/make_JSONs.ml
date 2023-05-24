@@ -1,4 +1,4 @@
-open CT_of_json
+open JGS_lib.CT_of_json
 
 let with_file name f =
   let ch = open_out name in

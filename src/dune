@@ -1,15 +1,13 @@
 (env
  (dev
   (flags
-   (:standard -warn-error -9-27-32-33-34))))
+   (:standard -warn-error -27))))
 
 (library
- (name lib)
- (modules CT_of_json test_of_json JGS JGS2)
- (wrapped false)
- (libraries yojson GT OCanren noCanren.Option noCanren.List ocamlgraph str)
- (flags
-  (:standard -rectypes))
+ (name JGS_lib)
+ (modules CT_of_json test_of_json JGS JGS2 JGS_Helpers MutableTypeTable)
+ (libraries GT OCanren noCanren.Option noCanren.List yojson ocamlgraph str)
+ (flags (-rectypes))
  (preprocess
   (pps
    OCanren-ppx.ppx_repr
@@ -18,21 +16,6 @@
    -new-typenames
    ppx_yojson_conv
    ppx_expect
-   GT.ppx_all))
- (inline_tests))
-
-(executable
- (name JGS_run)
- (modules JGS_run)
- (libraries lib)
- (flags
-  (:standard -rectypes))
- (preprocess
-  (pps
-   OCanren-ppx.ppx_repr
-   OCanren-ppx.ppx_fresh
-   OCanren-ppx.ppx_distrib
-   -new-typenames
    GT.ppx_all)))
 
 (rule
@@ -45,6 +28,3 @@
    sh
    -c
    "noCanren -w -8 %{input} -I `ocamlfind -query OCanren` -rectypes -o %{targets} | ocamlformat --enable-outside-detected-project --impl -")))
-
-(cram
- (deps ./JGS_run.exe))

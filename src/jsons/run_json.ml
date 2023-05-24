@@ -1,5 +1,7 @@
 let () = Printexc.record_backtrace true
 
+open JGS_lib
+
 type test_args = {
   mutable json_name : string;
   mutable run_default : bool;
@@ -28,7 +30,7 @@ let run_jtype pp ?(n = test_args.answers_count) query =
     @@ String.concat ";\n  " @@ Stdlib.List.map f l
   in
   pp_list pp @@ OCanren.Stream.take ~n
-  @@ OCanren.(run q) query (fun q -> q#reify JGS.HO.jtype_reify)
+  @@ OCanren.(run q) query (fun q -> q#reify JGS_lib.JGS.HO.jtype_reify)
 
 let class_or_interface typ =
   let open OCanren in

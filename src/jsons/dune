@@ -6,7 +6,7 @@
 (executable
  (name run_json)
  (modules run_json)
- (libraries lib yojson)
+ (libraries JGS_lib yojson)
  (flags
   (:standard -rectypes))
  (preprocess
@@ -37,4 +37,4 @@
  (modules make_JSONs)
  (flags
   (:standard -rectypes))
- (libraries lib))
+ (libraries JGS_lib))
