@@ -9,5 +9,5 @@
   [
     Not implemented JGS2.ml 70;
     null;
-    java.lang.Object
+    Array<java.lang.Object>
   ]

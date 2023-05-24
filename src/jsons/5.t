@@ -8,7 +8,7 @@
   [
     Not implemented JGS2.ml 70;
     null;
-    java.lang.Object;
     Array<java.lang.Object>;
-    java.lang.Clonable<_.17>
+    java.lang.Object;
+    java.lang.Clonable
   ]

@@ -331,8 +331,10 @@ let populate_graph on_decl table =
         | x -> on_decl x)
       g
   in
-
   iter ()
+
+exception Id_not_found of int
+exception Name_not_found of class_id
 
 let make_classtable table =
   let ((module CT : JGS2.SAMPLE_CLASSTABLE) as ct) = make_sample_ct () in
@@ -512,9 +514,7 @@ let make_classtable table =
   populate_graph on_decl table;
   let name_of_id id =
     match Hashtbl.find name_of_id_hash id with
-    | exception Not_found ->
-        failwiths "Cannot find a class for id %d. There are %d known ids" id
-          (Hashtbl.length name_of_id_hash)
+    | exception Not_found -> raise (Id_not_found id)
     | s -> s
   in
   let id_of_name name =
@@ -523,9 +523,7 @@ let make_classtable table =
     | exception Not_found -> (
         match Hashtbl.find ifaces name with
         | id -> id
-        | exception Not_found ->
-            failwiths "Can't find '%s' neither in classes not in interfaces"
-              name)
+        | exception Not_found -> raise (Name_not_found name))
   in
   (ct, id_of_name, name_of_id)
 
@@ -558,7 +556,9 @@ let make_query j =
     in
     acc
     |> SS.filter (fun name ->
-           match id_of_name name with _ -> false | exception Not_found -> true)
+           match id_of_name name with
+           | _ -> false
+           | exception Name_not_found _ -> true)
   in
 
   let () =
