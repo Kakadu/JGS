@@ -1,0 +1,21 @@
+{
+  "table": [
+    [
+      "C",
+      {
+        "cname": "String",
+        "params": [],
+        "super": [
+          "Class",
+          "java.util.List",
+          [ [ "Type", [ "Class", "java.util.string", [] ] ] ]
+        ],
+        "supers": []
+      }
+    ]
+  ],
+  "upper_bounds": [ [ "Class", "java.lang.Object", [] ] ],
+  "lower_bounds": [],
+  "neg_upper_bounds": [],
+  "neg_lower_bounds": []
+}

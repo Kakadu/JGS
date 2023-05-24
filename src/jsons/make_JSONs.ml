@@ -123,3 +123,26 @@ let () =
 
   with_file "test3.json" (fun ch ->
       Yojson.Safe.pretty_to_channel ch (yojson_of_query query))
+
+let () =
+  let table =
+    [
+      make_c "String" ~params:[]
+        ~sup:
+          (Class ("java.util.List", [ Type (Class ("java.util.string", [])) ]))
+        [];
+    ]
+  in
+
+  let query =
+    {
+      table;
+      upper_bounds = [ Class ("java.lang.Object", []) ];
+      lower_bounds = [];
+      neg_lower_bounds = [];
+      neg_upper_bounds = [];
+    }
+  in
+
+  with_file "test5.json" (fun ch ->
+      Yojson.Safe.pretty_to_channel ch (yojson_of_query query))
