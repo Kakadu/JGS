@@ -77,17 +77,18 @@ val make_classtable :
   decl list ->
   (module JGS2.SAMPLE_CLASSTABLE) * (string -> int) * (int -> string)
 
-val make_query :
-  Yojson.Safe.t ->
-  (module JGS2.SAMPLE_CLASSTABLE)
-  * ((JGS.HO.jtype_injected ->
-     JGS.HO.jtype_injected ->
-     bool OCanren.ilogic ->
-     OCanren.goal) ->
-    (JGS.HO.jtype_injected -> JGS.HO.jtype_injected) ->
-    JGS.HO.jtype_injected ->
-    OCanren.goal)
-  * (int -> string)
-
 exception Id_not_found of int
 exception Name_not_found of class_id
+
+type result_query =
+  (JGS.HO.jtype_injected ->
+  JGS.HO.jtype_injected ->
+  bool OCanren.ilogic ->
+  OCanren.goal) ->
+  (JGS.HO.jtype_injected -> JGS.HO.jtype_injected) ->
+  JGS.HO.jtype_injected ->
+  OCanren.goal
+
+val make_query :
+  Yojson.Safe.t ->
+  (module JGS2.SAMPLE_CLASSTABLE) * result_query * (int -> string)

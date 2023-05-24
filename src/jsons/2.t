@@ -6,6 +6,6 @@
   	     Processing: _.? <-< List (? extends java.lang.Object ())
   
   [
-    Not implemented JGS2.ml 70;
+    (? extends List<[? Extends java.lang.Object]>);
     null
   ]

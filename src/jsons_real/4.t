@@ -4194,7 +4194,7 @@
   	     Processing: _.? <-< org.jcp.xml.dsig.internal.dom.ApacheOctetStreamData ()
   
   [
-    Not implemented JGS2.ml 70;
+    (? extends org.jcp.xml.dsig.internal.dom.ApacheOctetStreamData);
     null;
     org.jcp.xml.dsig.internal.dom.ApacheOctetStreamData
   ]

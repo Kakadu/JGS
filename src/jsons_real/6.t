@@ -4193,7 +4193,7 @@
   	     Processing: _.? <-< java.lang.Object ()
   
   [
-    Not implemented JGS2.ml 70;
+    (? extends java.lang.Object);
     null;
     Array<java.lang.Object>
   ]
