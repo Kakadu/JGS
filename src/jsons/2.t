@@ -4,8 +4,5 @@
   
   Running generated query
   	     Processing: _.? <-< List (? extends java.lang.Object ())
-  
-  [
-    null;
-    List<[java.lang.Object]>
-  ]
+    0.2ms   1)  null
+    2.3ms   2)  List<[java.lang.Object]>
